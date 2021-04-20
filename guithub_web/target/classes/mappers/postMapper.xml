@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guithub.mappers.post">
+	<!-- 게시물 목록  -->
+	<select id ="list" resultType="com.guithub.domain.PostVO">
+		select id, title, writer_id, regdate, hit
+			from post_general order by regdate desc
+	</select>
+	
+	<!-- 게시물 상세보기 -->
+	<select id = "detail" resultType="com.guithub.domain.PostVO">
+		select * from post_general
+			where id = #{id}
+	</select>
+</mapper>
