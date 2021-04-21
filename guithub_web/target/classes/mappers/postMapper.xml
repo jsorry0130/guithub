@@ -9,9 +9,30 @@
 			from post_general order by regdate desc
 	</select>
 	
+	<!-- 게시물 목록 (페이징) -->
+	<select id ="listPaging" resultType="com.guithub.domain.PostVO">
+		select * from (
+		        select rownum num, n.* 
+		        from (select * from post_general order by regdate desc)n
+		        )
+		    where num between #{startRowNum} and #{endRowNum}
+	</select>
+	
+	<!-- 게시물 총 개수 카운트 -->
+	<select id ="count" resultType="int">
+		select count(id) from post_general
+	</select>
+	
 	<!-- 게시물 상세보기 -->
-	<select id = "detail" resultType="com.guithub.domain.PostVO">
+	<select id ="detail" resultType="com.guithub.domain.PostVO">
 		select * from post_general
 			where id = #{id}
 	</select>
+	
+	<!-- 게시물 등록 -->
+	<insert id="reg" parameterType="com.guithub.domain.PostVO">
+		insert into 
+			post_general(writer_id, title, content)
+				values(#{writer_id}, #{title}, #{content})
+	</insert>
 </mapper>

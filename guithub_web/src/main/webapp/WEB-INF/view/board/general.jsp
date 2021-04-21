@@ -4,6 +4,7 @@
     
 	<div class="container">
 		<div class="row">
+				<!-- 게시판 글 목록 -->
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd;
 				width: 1000px;">
 					<thead>
@@ -16,7 +17,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<!-- 게시판 글 목록 -->
 						<c:forEach items="${list}" var="p"> 
 						<tr style="background-color: #e2e2e2;">
 							<td>${p.id}</td>
@@ -30,11 +30,26 @@
 					</c:forEach>
 					</tbody>
 				</table>
-			<!-- 게시판 페이지 이동 버튼 -->
-			<div>
-				<a href="bbs.jsp?pageNumber=" class="btn btn-success btn-arraw-left">이전</a>
-				<a href="bbs.jsp?pageNumber=" class="btn btn-success btn-arraw-left">다음</a>
-				<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
-			</div>
+
+		</div>
+		
+		<!-- 게시판 페이징 -->
+		<div>
+			<c:if test="${prev}">
+				<a href="generalPaging?page=${startPageNum-1}" class="btn btn-success btn-arraw-left">이전</a>
+			</c:if>
+			
+				<c:forEach begin="${startPageNum}" end="${endPageNum}" var="num">
+					<span>
+						<a href="generalPaging?page=${num}">${num}</a>
+					</span>
+				</c:forEach>
+			
+				
+			<c:if test="${next}">
+				<a href="generalPaging?page=${endPageNum+1}" class="btn btn-success btn-arraw-left">다음</a>
+			</c:if>
+			
+			<a href="reg" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>
