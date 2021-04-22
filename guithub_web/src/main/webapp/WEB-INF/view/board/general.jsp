@@ -35,21 +35,45 @@
 		
 		<!-- 게시판 페이징 -->
 		<div>
-			<c:if test="${prev}">
-				<a href="generalPaging?page=${startPageNum-1}" class="btn btn-success btn-arraw-left">이전</a>
-			</c:if>
-			
-				<c:forEach begin="${startPageNum}" end="${endPageNum}" var="num">
-					<span>
-						<a href="generalPaging?page=${num}">${num}</a>
-					</span>
-				</c:forEach>
-			
+			<!-- 페이징 번호 및 버튼 -->
+			<div style="float: left;">
+				<c:if test="${paging.prev}">
+					<a href="generalPaging?page=${paging.startPageNum-1}" class="btn btn-success btn-arraw-left">이전</a>
+				</c:if>
 				
-			<c:if test="${next}">
-				<a href="generalPaging?page=${endPageNum+1}" class="btn btn-success btn-arraw-left">다음</a>
-			</c:if>
+					<c:forEach begin="${paging.startPageNum}" end="${paging.endPageNum}" var="num">
+						<c:if test="${paging.page != num}">
+							<span style="margin: 5px;">
+								<a href="generalPaging?page=${num}"> ${num} </a>
+							</span>
+						</c:if>
+						<c:if test="${paging.page == num}">
+							<span style="margin: 5px;">
+								<b> ${num} </b>
+							</span>							
+						</c:if>
+					</c:forEach>
+				
+					
+				<c:if test="${paging.next}">
+					<a href="generalPaging?page=${paging.endPageNum+1}" class="btn btn-success btn-arraw-left">다음</a>
+				</c:if>
+			</div>
 			
-			<a href="reg" class="btn btn-primary pull-right">글쓰기</a>
+			<!-- 글쓰기 버튼 -->
+			<div style="float: right; padding: 0px 130px 0px 0px;">
+				<a href="reg" class="btn btn-primary pull-right">글쓰기</a>
+			</div>
+			
+			<!-- 검색 박스 및 버튼 -->
+			
+			<div style="float: right; padding: 0px 10px 0px 0px;">
+				<a href="#" class="btn btn-primary pull-right">검색</a>
+			</div>
+			<div style="float: right; padding: 0px 10px 0px 0px;">
+				<input type="text" class="form-control" placeholder="검색" name="search" style="width: 300px;"/>
+			</div>
+			
+			
 		</div>
 	</div>
