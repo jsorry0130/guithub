@@ -19,9 +19,16 @@
   <link href="css/business-frontpage.css" rel="stylesheet">
   <link href="css/simple-sidebar.css" rel="stylesheet">
   
+  <style type="text/css">
+	a:link {text-decoration: none; color: black;}
+	a:visited {text-decoration: none; color: black;}
+	a:active {text-decoration: none; color: black;}
+	a:hover {text-decoration: underline; color: black;}
+  </style>
+
 </head>
 
-<body>    
+<body class="bg-secondary" link="black" alink="black" vlink="black">    
   <!-- Navigation -->
 
   <tiles:insertAttribute name="nav" />

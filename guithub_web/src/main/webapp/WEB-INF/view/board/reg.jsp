@@ -4,23 +4,35 @@
 	<div class="container">
 		<div class="row">
 			<form method="post" action="regPost">
-				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; width: 1000px;">
+				<table class="table" style="text-align: center; width: 1000px; border: 1px solid white;">
 					<thead>
 						<tr>
-							<th colspan="2" style="background-color: #eeeeee; text-align: center;">게시물 등록</th>
+							<th class="bg-dark" colspan="3" style="text-align: center; color: white;">게시물 등록</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="background-color:#eeeeee;">
+						<tr>
+							<td/>
+							<td style = "width: 15%" ><input type="text" class="form-control" placeholder="작성자" name="writer_id"></td>
+							<td style = "width: 15%" ><input type="password" class="form-control" placeholder="비밀번호" name="password"></td>
+						</tr>
 						<tr><!-- <input type="text" class="form-control" placeholder="작성자" name="writer_id"> -->
-							<td style = "width: 15%"><input type="text" class="form-control" placeholder="작성자" name="writer_id"></td>
-							<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"></td>
+							<td colspan="3"><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"></td>
 						</tr>
 						<tr>
-							<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 400px;"></textarea></td>
+							<td colspan="3"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 400px;"></textarea></td>
 						</tr>
+						<tr>
+							<td/>
+							<td/>
+							<td style="width:10%">
+								<button type="submit" class="btn bg-dark" value="글쓰기" style="color: white">작성</button>
+							</td>
+						</tr>
+						
 					</tbody>
 				</table>
-				<button type="submit" class="btn btn-primary pull-right" value="글쓰기">작성</button>
+
 			</form>
 		</div>
 	</div>

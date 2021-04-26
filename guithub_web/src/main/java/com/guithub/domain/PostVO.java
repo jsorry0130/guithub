@@ -1,5 +1,7 @@
 package com.guithub.domain;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class PostVO {
@@ -11,9 +13,14 @@ public class PostVO {
 	private Date regDate;
 	private int hit;
 	private String files;
+	private String password;
 	
+	//실제 datatable에는 없는 속성. 오늘자 글인지 확인하기 위한 속성
+	private boolean new_post = false;
+		
 	//getter and setter
 	public int getId() {
+		setNew_post();
 		return id;
 	}
 	public void setId(int id) {
@@ -54,6 +61,32 @@ public class PostVO {
 	}
 	public void setFiles(String files) {
 		this.files = files;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public boolean isNew_post() {
+		return new_post;
+	}
+	
+	public void setNew_post() {
+		//현재 날짜 생성
+		Date now = new Date();
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		int simpleRegDate = Integer.parseInt(simpleDateFormat.format(regDate));
+		int simpleNow = Integer.parseInt(simpleDateFormat.format(now));
+		
+		//현재 날짜와 게시물의 날짜가 같다면 오늘자 게시물
+		if(simpleNow == simpleRegDate) {
+			this.new_post = true;
+		}
+		
 	}
 	
 	
