@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"	uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
+
 	<div class="container">
 		<!-- 글 상세보기 -->
 		
@@ -34,40 +34,16 @@
 						${detail.content}
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2"/>
-						<td>
-						<p><input type="hidden" name="id" value="${detail.id}"/></p>
-						<input type="password" class="form-control" placeholder="비밀번호" name="password" style="width: 150px;">
-						
-						</td>
-						
-					</tr>
 				</tbody>
 			</table>
 
 		</div>
 		<!-- 목록, 수정, 삭제 버튼 -->
 		
-			<div align="right" style="width: 990px;">
+			<div align="right" style="width: 985px;">
 				
-				<div style="float: right; margin: 0px 5px 0px 0px;">
-					<input onclick="return confirm('정말로 삭제하시겠습니까?')" type="submit" class="btn bg-dark" style="color: white" value="삭제" />
-					<!-- delete 컨트롤러에 의해 delCnt값이 담긴채로 general로 Redirect -->
-					<c:if test="${delCnt == 0}">
-						<input type="hidden" name="delCnt" value="${delCnt}"/>
-					</c:if>	
-				</div>
-				
-				<div style="float: right; margin: 0px 5px 0px 5px;">
-					<input onclick="return confirm('정말로 수정하시겠습니까?')" type="submit" class="btn bg-dark" style="color: white" value="수정" />	
-				</div>
-				<c:if test="${delCnt == 0}">
-					<script type="text/javascript">	
-					  alert("비밀번호가 일치하지 않습니다.");
-					</script>
-				</c:if>
 				<a href="general" class="btn bg-dark" style="color: white">목록</a>
+				<a href="delPost?id=${param.id}" class="btn bg-dark" style="color: white">삭제</a>
 			</div>
 			
 		</form>
@@ -99,15 +75,15 @@
 				<tr class="bg-dark" style="color: white">
 					<th style="width: 15%;">작성자</th>
 					<th >댓글</th>
-					<th></th>
+					<th style="width:2%"></th>
 					<th style="width: 15%;">날짜</th>
 				</tr>
 				
 				<c:forEach items="${listReply}" var="r">
 					<tr style="background-color:white;">
 						<td>${r.writer_id }</td>
-						<td class="cotent">${r.content }</td>
-						<td><a href="#" style="color: red">[x]</a></td>
+						<td class="cotent" style = "WORD-BREAK: break-all;">${r.content }</td>
+						<td><a href="delReply?rid=${r.id}&pid=${param.id}" style="color: red">[x]</a></td>
 						<td><fmt:formatDate pattern="yy/MM/dd HH:mm" value="${r.regdate }"/></td>
 					</tr>
 				</c:forEach>

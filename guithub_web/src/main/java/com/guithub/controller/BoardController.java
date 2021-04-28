@@ -79,18 +79,35 @@ public class BoardController {
 		return "redirect:detail?id="+vo.getPost_id();
 	}
 	
-	//게시물 삭제 비밀번호 입력 페이지
-	@RequestMapping(value="delete", method = {RequestMethod.GET, RequestMethod.POST})
-	public String delPost(@RequestParam("password") String password,
-			@RequestParam("id") int id, Model model) throws Exception{
+	//댓글 삭제 비밀번호 입력 페이지
+	@RequestMapping(value = "delReply", method = {RequestMethod.POST , RequestMethod.GET})
+	public String delReply(@RequestParam("rid") int id,
+			@RequestParam(value="password", required = false, defaultValue = "") String password, Model model) throws Exception{
+		
+		//비밀번호를 입력했을 때만 리플 삭제 진행
+		if(!password.equals("")) {
+			System.out.println("아이디 비번 입력 확인 완료 검증 후 삭제 진행");
+			int delCnt = service.delReply(id, password);
+			model.addAttribute("delCnt", delCnt);
+		}
+		
+		return "board.delReply";
+	}
 	
-		//삭제 성공 여부 확인을 위한 삭제된 로우 카운트
-		int delCnt = service.delPost(id, password);
+	
+	//게시물 삭제 비밀번호 입력 페이지
+	@RequestMapping(value = "delPost", method = {RequestMethod.POST , RequestMethod.GET})
+	public String delPost(@RequestParam("id") int id,
+			@RequestParam(value="password", required = false, defaultValue = "") String password, Model model) throws Exception{
 		
-		model.addAttribute("delCnt", delCnt);
+		//비밀번호를 입력했을 때만 게시물 삭제 진행
+		if(!password.equals("")) {
+			System.out.println("아이디 비번 입력 확인 완료 검증 후 삭제 진행");
+			int delCnt = service.delPost(id, password);
+			model.addAttribute("delCnt", delCnt);
+		}
 		
-		
-		return "board.delete";
+		return "board.delPost";
 	}
 	
 }

@@ -92,6 +92,19 @@ public class PostDAOImpl implements PostDAO {
 		sql.insert(namespace + ".regReply", vo);
 	}
 
+	//¥Ò±€ ªË¡¶
+	@Override
+	public int delReply(int id, String password) throws Exception {
+		
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("id", id);
+		data.put("password", password);
+		
+		return sql.delete(namespace+".delReply", data);
+		
+	}
+
 
 
 

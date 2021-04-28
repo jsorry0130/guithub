@@ -12,7 +12,6 @@
 
 	<context:component-scan base-package="com.guithub.service" />
 	<context:component-scan base-package="com.guithub.dao" />
-	<context:component-scan base-package="com.guithub.service" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

@@ -20,4 +20,6 @@ public interface PostService {
 	public List<ReplyVO> getListReply(int post_id) throws Exception;
 	//¥Ò±€ µÓ∑œ
 	public void regReply(ReplyVO vo) throws Exception;
+	//¥Ò±€ ªË¡¶
+	public int delReply(int id, String password) throws Exception;	
 }

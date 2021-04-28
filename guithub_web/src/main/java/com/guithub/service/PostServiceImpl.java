@@ -65,6 +65,12 @@ public class PostServiceImpl implements PostService {
 		dao.regReply(vo);	
 	}
 
+	@Override
+	public int delReply(int id, String password) throws Exception {
+		
+		return dao.delReply(id, password);
+	}
+
 
 
 
