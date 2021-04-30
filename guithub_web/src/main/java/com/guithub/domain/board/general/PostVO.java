@@ -1,7 +1,6 @@
-package com.guithub.domain;
+package com.guithub.domain.board.general;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class PostVO {
@@ -10,7 +9,7 @@ public class PostVO {
 	private String title;
 	private String content;
 	private String writer_id;
-	private Date regDate;
+	private Date regdate;
 	private int hit;
 	private String files;
 	private String password;
@@ -20,7 +19,7 @@ public class PostVO {
 		
 	//getter and setter
 	public int getId() {
-		setNew_post();
+		//setNew_post();
 		return id;
 	}
 	public void setId(int id) {
@@ -44,11 +43,11 @@ public class PostVO {
 	public void setWriter_id(String writer_id) {
 		this.writer_id = writer_id;
 	}
-	public Date getRegDate() {
-		return regDate;
+	public Date getRegdate() {
+		return regdate;
 	}
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
 	}
 	public int getHit() {
 		return hit;
@@ -79,7 +78,7 @@ public class PostVO {
 		Date now = new Date();
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-		int simpleRegDate = Integer.parseInt(simpleDateFormat.format(regDate));
+		int simpleRegDate = Integer.parseInt(simpleDateFormat.format(regdate));
 		int simpleNow = Integer.parseInt(simpleDateFormat.format(now));
 		
 		//현재 날짜와 게시물의 날짜가 같다면 오늘자 게시물

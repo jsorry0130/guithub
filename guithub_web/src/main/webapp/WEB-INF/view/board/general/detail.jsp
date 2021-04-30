@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"	uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 	<div class="container">
@@ -21,13 +22,20 @@
 					<tr> 
 						<th style = "width: 15%; background-color: #eeeeee;">${detail.writer_id}</th>
 						<th style= "text-align: right; background-color: #eeeeee;">
-							<fmt:formatDate pattern="yy/MM/dd HH:mm" value="${detail.regDate }"/>
+							<fmt:formatDate pattern="yy/MM/dd HH:mm" value="${detail.regdate }"/>
 						</th>
 						<th style= "width:15%; text-align: right; background-color: #eeeeee;">${detail.hit}</th>
 					</tr>
 					<tr>
 						<th style="width: 15%; background-color: #eeeeee;">첨부파일</th>
-						<td colspan="2"  style="background-color: #ffffff;" >${detail.files}</td>
+						<td colspan="2"  style="background-color: #ffffff;" >
+							<c:forEach items="${files}" var="f">
+								<a download href = "/static/upload/${f.realName}">
+									[다운로드] ${f.name} (${f.file_size}kb)<br/>
+								</a>
+							</c:forEach>
+						
+						</td>
 					</tr>
 					<tr class="content">
 						<td colspan="3" style="background-color: #ffffff;">
@@ -42,14 +50,15 @@
 		
 			<div align="right" style="width: 985px;">
 				
-				<a href="general" class="btn bg-dark" style="color: white">목록</a>
-				<a href="delPost?id=${param.id}" class="btn bg-dark" style="color: white">삭제</a>
+				<a href="list" class="btn bg-dark" style="color: white">목록</a>
+				<a href="checkpwd?id=${param.id}" class="btn bg-dark" style="color: white">수정</a>
+				<a href="delpost?id=${param.id}" class="btn bg-dark" style="color: white">삭제</a>
 			</div>
 			
 		</form>
 		
 		<!-- 댓글 작성 폼 -->
-		<form method="post" action="regReply">
+		<form method="post" action="regreply">
 			<div class="row" align="right" style="padding: 20px 0px 20px 0px;">
 				<div style="width: 200px" >
 					<input type="text" class="form-control" placeholder="작성자" name="writer_id" style="width: 200px;"/>
@@ -83,7 +92,7 @@
 					<tr style="background-color:white;">
 						<td>${r.writer_id }</td>
 						<td class="cotent" style = "WORD-BREAK: break-all;">${r.content }</td>
-						<td><a href="delReply?rid=${r.id}&pid=${param.id}" style="color: red">[x]</a></td>
+						<td><a href="delreply?rid=${r.id}&pid=${param.id}" style="color: red">[x]</a></td>
 						<td><fmt:formatDate pattern="yy/MM/dd HH:mm" value="${r.regdate }"/></td>
 					</tr>
 				</c:forEach>

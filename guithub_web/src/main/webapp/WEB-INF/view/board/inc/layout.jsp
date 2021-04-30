@@ -13,11 +13,11 @@
   <title>Business Frontpage - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/business-frontpage.css" rel="stylesheet">
-  <link href="css/simple-sidebar.css" rel="stylesheet">
+  <link href="/static/css/business-frontpage.css" rel="stylesheet">
+  <link href="/static/css/simple-sidebar.css" rel="stylesheet">
   
   <style type="text/css">
 	a:link {text-decoration: none; color: black;}
@@ -58,8 +58,8 @@
 
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

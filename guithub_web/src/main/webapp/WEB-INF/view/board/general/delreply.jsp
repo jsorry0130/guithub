@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 	<script>
 	//get 방식으로파라미터를 받는 함수
 	function getParameter(name) {
@@ -28,7 +27,7 @@
 	
 	<div class="container">
 		<!-- 댓글 삭제 패스워드 확인 페이지 -->	
-		<form method="post" action="delReply?rid=${param.rid}&pid=${param.pid}">	
+		<form method="post">	
 		<div class="row">
 			<table class="table table-striped" style="border: 1px solid #dddddd; width: 1000px;">
 				<thead class="bg-dark">

@@ -3,7 +3,7 @@
 	<!-- 글 작성 양식 -->
 	<div class="container">
 		<div class="row">
-			<form method="post" action="regPost">
+			<form method="post" enctype="multipart/form-data">
 				<table class="table" style="text-align: center; width: 1000px; border: 1px solid white;">
 					<thead>
 						<tr>
@@ -16,8 +16,11 @@
 							<td style = "width: 15%" ><input type="text" class="form-control" placeholder="작성자" name="writer_id"></td>
 							<td style = "width: 15%" ><input type="password" class="form-control" placeholder="비밀번호" name="password"></td>
 						</tr>
-						<tr><!-- <input type="text" class="form-control" placeholder="작성자" name="writer_id"> -->
+						<tr>
 							<td colspan="3"><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50"></td>
+						</tr>
+						<tr><!-- PostVO의 files와 파일태그의 name값이 달라야 컨트롤러에서 읽어낼수있다. -->
+							<td colspan="3"><input type="file" multiple class="form-control" name="file"></td>
 						</tr>
 						<tr>
 							<td colspan="3"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="2048" style="height: 400px;"></textarea></td>

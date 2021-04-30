@@ -23,6 +23,9 @@
 						<tr style="background-color: #eeeeee;">
 							<td>${p.id}</td>
 							<td style="text-align: left;"><a href="detail?id=${p.id}" link="black">${p.title}
+								<c:if test="${p.reply_count > 0 }">
+								<span style="color: blue">[${p.reply_count}]</span>
+								</c:if>
 								<c:if test="${p.new_post == true}">
 									<span style="color:red;">[new]</span>
 								</c:if>
@@ -30,10 +33,10 @@
 							<td>${p.writer_id}</td>
 							<td>
 								<c:if test="${p.new_post == true}">
-									<fmt:formatDate pattern="HH:mm" value="${p.regDate }"/>
+									<fmt:formatDate pattern="HH:mm" value="${p.regdate }"/>
 								</c:if>
 								<c:if test="${p.new_post == false}">
-									<fmt:formatDate pattern="yy/MM/dd" value="${p.regDate }"/>
+									<fmt:formatDate pattern="yy/MM/dd" value="${p.regdate }"/>
 								</c:if> 
 							</td>
 							<td>${p.hit}</td>
@@ -49,14 +52,14 @@
 			<!-- 페이징 번호 및 버튼 -->
 			<div style="float: left;">
 				<c:if test="${paging.prev}">
-					<a href="general?page=${paging.startPageNum-1}&field=${param.field}&keyword=${param.keyword}" 
+					<a href="list?page=${paging.startPageNum-1}&field=${param.field}&keyword=${param.keyword}" 
 					class="btn bg-dark btn-arraw-left" style="color: white">이전</a>
 				</c:if>
 				
 					<c:forEach begin="${paging.startPageNum}" end="${paging.endPageNum}" var="num">
 						<c:if test="${paging.page != num}">
 							<span style="margin: 5px;">
-								<a href="general?page=${num}&field=${param.field}&keyword=${param.keyword}"> ${num} </a>
+								<a href="list?page=${num}&field=${param.field}&keyword=${param.keyword}"> ${num} </a>
 							</span>
 						</c:if>
 						<c:if test="${paging.page == num}">
@@ -68,7 +71,7 @@
 				
 					
 				<c:if test="${paging.next}">
-					<a href="general?page=${paging.endPageNum+1}&field=${param.field}&keyword=${param.keyword}" 
+					<a href="list?page=${paging.endPageNum+1}&field=${param.field}&keyword=${param.keyword}" 
 					class="btn bg-dark btn-arraw-left" style="color: white">다음</a>
 				</c:if>
 			</div>

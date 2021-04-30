@@ -1,4 +1,4 @@
-package com.guithub.domain;
+package com.guithub.domain.board.general;
 
 import java.util.Date;
 
