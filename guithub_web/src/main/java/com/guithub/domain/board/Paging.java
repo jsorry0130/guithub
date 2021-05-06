@@ -1,4 +1,4 @@
-package com.guithub.domain.board.general;
+package com.guithub.domain.board;
 
 public class Paging {
 	

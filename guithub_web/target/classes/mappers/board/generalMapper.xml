@@ -2,26 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guithub.mappers.general">
-	
-	<!-- 게시물 목록 (페이징+서치) -->
-	<select id ="getList" resultType="com.guithub.domain.board.general.PostVO">
-		select * from (
-		        select rownum num, n.* 
-		        from (select * from post_general 
-		        <if test='field.equals("title")'>
-		        	where title like '%${keyword}%' order by regdate desc)n
-		        </if>
-		        <if test='field.equals("title_content")'>
-		        	where title like '%${keyword}%' or content like '%${keyword}%' order by regdate desc)n
-		        </if>
-		        <if test='field.equals("writer")'>
-		        	where writer_id like '%${keyword}%' order by regdate desc)n
-		        </if>
-		        )
-		    where num between #{startRowNum} and #{endRowNum}
-	</select>
-	
+<mapper namespace="com.guithub.mappers.board.general">
 	<!-- 게시물 목록 (댓글수를 포함한 뷰) -->
 	<select id ="getList_view" resultType="com.guithub.domain.board.general.PostVO_view">
 		select * from (
@@ -89,12 +70,11 @@
 	<update id="editPost" parameterType="com.guithub.domain.board.general.PostVO">
 		update post_general
 			set title = #{title},
-			    content = #{content},
-			    files = #{files}
+			    content = #{content}
 			where id = #{id}
 	</update>
 	
-	<!-- 댓글 등록 post_id 쪽에 들어가는 값 따옴표 주의-->
+	<!-- 댓글 등록 -->
 	<insert id="regReply" parameterType="com.guithub.domain.board.general.ReplyVO">
 		INSERT INTO reply_general (
 		    writer_id, password, content, post_id
@@ -115,13 +95,7 @@
 			where id = #{id} and password= '${password}'
 	<!-- password 에서 #{} 으로 파라미터를 매핑할시 오류는 없으나 쿼리가 작동하지못함,,,부득이하게 ${} 사용 -->
 	</delete>
-	
-	<!-- 게시물에 달린 댓글 개수 카운트 -->
-	<select id ="getCountReply" parameterType="int" resultType="int">
-		select count(id) from reply_general
-			where post_id = #{post_id}
-	</select>
-	
+		
 	<!-- 게시물 조회수 갱신 -->
 	<update id = "updateHit" parameterType="int">
 		update post_general
@@ -129,17 +103,23 @@
 			where id = #{id}	
 	</update>
 	
-	<!-- 파일 정보 삽입 -->
+	<!-- 게시물 첨부파일 정보 삽입 -->
 	<insert id="regFile" parameterType="com.guithub.domain.board.general.FileVO">
 		INSERT INTO file_general (name, file_size, post_id) 
 			VALUES (#{name}, #{file_size}, #{post_id})
 	</insert>
 	
-	<!-- 파일 정보 보기 -->
+	<!-- 게시물 첨부파일 정보 보기 -->
 	  
 	<select id="getFile" parameterType="int" resultType="com.guithub.domain.board.general.FileVO">
 		select * from file_general
 			where post_id = #{id} order by regdate desc
 	</select>
+	
+	<!-- 게시물 첨부파일 삭제 -->
+	<delete id="delFile" parameterType="int">
+		delete from file_general
+			where id = #{id}
+	</delete>
 	
 </mapper>

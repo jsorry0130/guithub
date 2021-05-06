@@ -18,7 +18,7 @@ public class PostDAOImpl implements PostDAO {
 	@Autowired
 	private SqlSession sql;
 	
-	private static String namespace = "com.guithub.mappers.general";
+	private static String namespace = "com.guithub.mappers.board.general";
 	
 	
 	//게시물 목록(페이징 + 서치)
@@ -98,40 +98,6 @@ public class PostDAOImpl implements PostDAO {
 		return sql.delete(namespace+".delPost", data);
 	}
 	
-	//댓글 목록
-	@Override
-	public List<ReplyVO> getListReply(int post_id) throws Exception {
-		
-		return sql.selectList(namespace+".getListReply", post_id);
-	}
-
-	//댓글 등록
-	@Override
-	public void regReply(ReplyVO vo) throws Exception {
-		
-		sql.insert(namespace + ".regReply", vo);
-	}
-
-	//댓글 삭제
-	@Override
-	public int delReply(int id, String password) throws Exception {
-		
-		HashMap<String, Object> data = new HashMap<String, Object>();
-		
-		data.put("id", id);
-		data.put("password", password);
-		
-		return sql.delete(namespace+".delReply", data);
-		
-	}
-
-	//댓글 목록
-	@Override
-	public int getCountReply(int id) throws Exception{
-		
-		return sql.selectOne(namespace+".getCountReply", id);
-	}
-
 	//게시물 조회수 갱신
 	@Override
 	public void updateHit(int id) throws Exception {
@@ -153,9 +119,9 @@ public class PostDAOImpl implements PostDAO {
 
 	//게시물 수정
 	@Override
-	public void updatePost(PostVO vo) throws Exception {
+	public void editPost(PostVO vo) throws Exception {
 		
-		sql.update(namespace+".updatePost", vo);
+		sql.update(namespace+".editPost", vo);
 	}
 
 	//파일 정보 삽입
@@ -170,6 +136,13 @@ public class PostDAOImpl implements PostDAO {
 	public List<FileVO> getFile(int id) {
 
 		return sql.selectList(namespace+".getFile", id);
+	}
+
+	//파일 삭제
+	@Override
+	public void delFile(int id) {
+		
+		sql.delete(namespace+".delFile", id);
 	}
 
 

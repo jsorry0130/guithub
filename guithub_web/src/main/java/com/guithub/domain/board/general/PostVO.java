@@ -11,7 +11,6 @@ public class PostVO {
 	private String writer_id;
 	private Date regdate;
 	private int hit;
-	private String files;
 	private String password;
 	
 	//실제 datatable에는 없는 속성. 오늘자 글인지 확인하기 위한 속성
@@ -55,12 +54,6 @@ public class PostVO {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	public String getFiles() {
-		return files;
-	}
-	public void setFiles(String files) {
-		this.files = files;
-	}
 	
 	public String getPassword() {
 		return password;
@@ -68,7 +61,7 @@ public class PostVO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public boolean isNew_post() {
 		return new_post;
 	}
@@ -87,6 +80,7 @@ public class PostVO {
 		}
 		
 	}
+
 	
 	
 }

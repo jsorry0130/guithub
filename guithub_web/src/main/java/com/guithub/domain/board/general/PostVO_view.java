@@ -10,7 +10,6 @@ public class PostVO_view {
 	private String writer_id;
 	private Date regdate;
 	private int hit;
-	private String files;
 	private String reply_count;
 	
 	//실제 datatable에는 없는 속성. 오늘자 글인지 확인하기 위한 속성
@@ -48,12 +47,6 @@ public class PostVO_view {
 	}
 	public void setHit(int hit) {
 		this.hit = hit;
-	}
-	public String getFiles() {
-		return files;
-	}
-	public void setFiles(String files) {
-		this.files = files;
 	}
 	
 	public String getReply_count() {

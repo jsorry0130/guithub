@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guithub.mappers.board.tab">
+	
+	<!-- 게시물 총 개수 조회 -->
+	<select id="getPostCnt" resultType="int">
+		select count(id) from post_tab
+			<if test='field.equals("title")'>
+				where title like '%${keyword}%'
+		    </if>
+		    <if test='field.equals("title_content")'>
+		        where title like '%${keyword}%' or content like '%${keyword}%'
+		    </if>
+		    <if test='field.equals("writer")'>
+		        where writer_id like '%${keyword}%'
+		    </if>		
+	</select>
+	<!-- 게시물 목록 조회(페이징 + 서치) + 댓글 수 포함을 위한 뷰를 조회 -->
+	<select id ="getList_view" resultType="com.guithub.domain.board.tab.PostVO_view">
+		select * from (
+		        select rownum num, n.* 
+		        from (select * from post_tab_view 
+		        <if test='field.equals("title")'>
+		        	where title like '%${keyword}%' order by regdate desc)n
+		        </if>
+		        <if test='field.equals("title_content")'>
+		        	where title like '%${keyword}%' or content like '%${keyword}%' order by regdate desc)n
+		        </if>
+		        <if test='field.equals("writer")'>
+		        	where writer_id like '%${keyword}%' order by regdate desc)n
+		        </if>
+		        )
+		    where num between #{startRowNum} and #{endRowNum}
+	</select>
+	<!-- 게시물 상세 조회 -->
+	<select id ="getDetail" resultType="com.guithub.domain.board.tab.PostVO">
+		select * from post_tab
+			where id = #{id}
+	</select>
+	<!-- 게시물 조회수 갱신 -->
+	<update id = "updateHit" parameterType="int">
+		update post_tab
+			set hit = hit + 1
+			where id = #{id}	
+	</update>
+	<!-- 댓글 목록 조회-->
+	<select id ="getReplyList" resultType="com.guithub.domain.board.tab.ReplyVO">
+		select id, content, writer_id, regdate from reply_tab
+			where post_id = #{post_id} order by regdate desc
+	</select>
+	<!-- 게시물 첨부파일 목록 조회 -->
+	<select id="getFileList" parameterType="int" resultType="com.guithub.domain.board.tab.FileVO">
+		select * from file_tab
+			where post_id = #{id} order by regdate desc
+	</select>
+	<!-- 게시물 등록 -->
+	<insert id="regPost" parameterType="com.guithub.domain.board.tab.PostVO">
+		insert into 
+			post_tab(id, writer_id, title, content)
+				values(post_tab_id_seq.nextval, 
+				#{writer_id}, #{title}, #{content})
+		<!-- 게시물 등록 후 바로 id를 가져오기 위해 seq 값 select	 -->	
+		<selectKey keyProperty="id" resultType="Integer" order="AFTER">
+			SELECT post_tab_id_seq.currval FROM dual
+		</selectKey>
+	</insert>
+	<!-- 게시물 첨부파일 등록 -->
+	<insert id="regFile" parameterType="com.guithub.domain.board.tab.FileVO">
+		insert into file_tab (name, file_size, post_id) 
+			values (#{name}, #{file_size}, #{post_id})
+	</insert>
+	<!-- 게시물 삭제-->
+	<delete id="delPost" parameterType="int">
+		delete from post_tab
+			where id = #{id}
+	</delete>
+	<!-- 게시물 수정 -->
+	<update id="editPost" parameterType="com.guithub.domain.board.tab.PostVO">
+		update post_tab
+			set title = #{title},
+			    content = #{content}
+			where id = #{id}
+	</update>
+	<!-- 게시물 첨부파일 삭제 -->
+	<delete id="delFile" parameterType="int">
+		delete from file_tab
+			where id = #{id}
+	</delete>
+	<!-- 댓글 등록 -->
+	<insert id="regReply" parameterType="com.guithub.domain.board.tab.ReplyVO">
+		INSERT INTO reply_tab (
+		    writer_id, content, post_id
+		) VALUES (
+		    #{writer_id}, #{content}, #{post_id}
+		)
+	</insert>
+	<!-- 댓글 삭제 -->
+	<delete id="delReply" parameterType="int">
+		delete from reply_tab
+			where id = #{id}
+	<!-- password 에서 #{} 으로 파라미터를 매핑할시 오류는 없으나 쿼리가 작동하지못함,,,부득이하게 ${} 사용 -->
+	</delete>
+</mapper>

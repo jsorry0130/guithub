@@ -14,7 +14,7 @@
 			<table class="table table-striped" style="border: 1px solid #dddddd; width: 1000px;">
 				<thead class="bg-dark">
 					<tr>
-						<th colspan="3" style="text-align: center; color: white;">${detail.title}</th>
+						<th colspan="3" style="text-align: center; color: white;"><h4>${detail.title}</h4></th>
 					</tr>
 				</thead>
 				<tbody style="background-color: #eeeeee;">
@@ -38,9 +38,7 @@
 						</td>
 					</tr>
 					<tr class="content">
-						<td colspan="3" style="background-color: #ffffff;">
-						${detail.content}
-						</td>
+						<td colspan="3" style="background-color: #ffffff; white-space: pre;">${detail.content}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -91,7 +89,7 @@
 				<c:forEach items="${listReply}" var="r">
 					<tr style="background-color:white;">
 						<td>${r.writer_id }</td>
-						<td class="cotent" style = "WORD-BREAK: break-all;">${r.content }</td>
+						<td class="cotent" style = "WORD-BREAK: break-all; white-space: pre;">${r.content }</td>
 						<td><a href="delreply?rid=${r.id}&pid=${param.id}" style="color: red">[x]</a></td>
 						<td><fmt:formatDate pattern="yy/MM/dd HH:mm" value="${r.regdate }"/></td>
 					</tr>

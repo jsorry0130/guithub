@@ -10,8 +10,8 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.guithub.service" />
-	<context:component-scan base-package="com.guithub.dao" />
+	<context:component-scan base-package="com.guithub.service" name-generator="com.guithub.FullBeanNameGenerator"/>
+	<context:component-scan base-package="com.guithub.dao" name-generator="com.guithub.FullBeanNameGenerator"/>
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

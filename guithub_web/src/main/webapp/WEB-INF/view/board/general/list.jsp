@@ -5,8 +5,9 @@
     
 					
 	<div class="container">
+		<h1 style="color: white;">자유게시판</h1>
+		<h3 style="color: white;">-익명-</h3>
 		<div class="row">
-				<h1 style="color: white;">자유게시판</h1>
 				<!-- 게시판 글 목록 -->
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; width: 1000px;">
 					<thead>

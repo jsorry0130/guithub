@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guithub.mappers.board.general">
+	<!-- 게시물 목록 (댓글수를 포함한 뷰) -->
+	<select id ="getList_view" resultType="com.guithub.domain.board.general.PostVO_view">
+		select * from (
+		        select rownum num, n.* 
+		        from (select * from post_general_view 
+		        <if test='field.equals("title")'>
+		        	where title like '%${keyword}%' order by regdate desc)n
+		        </if>
+		        <if test='field.equals("title_content")'>
+		        	where title like '%${keyword}%' or content like '%${keyword}%' order by regdate desc)n
+		        </if>
+		        <if test='field.equals("writer")'>
+		        	where writer_id like '%${keyword}%' order by regdate desc)n
+		        </if>
+		        )
+		    where num between #{startRowNum} and #{endRowNum}
+	</select>
+	
+	<!-- 게시물 총 개수 카운트 -->
+	<select id ="getCount" parameterType="hashMap" resultType="int">
+		select count(id) from post_general
+				<if test='field.equals("title")'>
+		        	where title like '%${keyword}%'
+		        </if>
+		        <if test='field.equals("title_content")'>
+		        	where title like '%${keyword}%' or content like '%${keyword}%'
+		        </if>
+		        <if test='field.equals("writer")'>
+		        	where writer_id like '%${keyword}%'
+		        </if>
+	</select>
+	
+	<!-- 게시물 상세보기 -->
+	<select id ="getDetail" resultType="com.guithub.domain.board.general.PostVO">
+		select * from post_general
+			where id = #{id}
+	</select>
+	
+	<!-- 게시물 등록 -->
+	<insert id="regPost" parameterType="com.guithub.domain.board.general.PostVO">
+		insert into 
+			post_general(id, writer_id, password, title, content)
+				values(post_general_id_seq.nextval, 
+				#{writer_id}, #{password}, #{title}, #{content})
+		<!-- 게시물 등록 후 바로 id를 가져오기 위해 seq 값 select	 -->	
+		<selectKey keyProperty="id" resultType="Integer" order="AFTER">
+			SELECT post_general_id_seq.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<!-- 게시물 삭제-->
+	<delete id="delPost" parameterType="hashMap">
+		delete from post_general
+			where id = #{id} and password= '${password}'
+	<!-- password 에서 #{} 으로 파라미터를 매핑할시 오류는 없으나 쿼리가 작동하지못함,,,부득이하게 ${} 사용 -->
+	</delete>
+	
+	<!-- 게시물 패스워드 검증 -->
+	<select id="checkPwd" parameterType="hashMap" resultType="boolean">
+		select count(id) from post_general
+			where id = #{id} and password= '${password}'
+	</select>
+	
+	<!-- 게시물 수정 -->
+	<update id="editPost" parameterType="com.guithub.domain.board.general.PostVO">
+		update post_general
+			set title = #{title},
+			    content = #{content}
+			where id = #{id}
+	</update>
+	
+	<!-- 댓글 등록 -->
+	<insert id="regReply" parameterType="com.guithub.domain.board.general.ReplyVO">
+		INSERT INTO reply_general (
+		    writer_id, password, content, post_id
+		) VALUES (
+		    #{writer_id}, #{password}, #{content}, #{post_id}
+		)
+	</insert>
+	
+	<!-- 댓글 목록 -->
+	<select id ="getListReply" resultType="com.guithub.domain.board.general.ReplyVO">
+		select id, content, writer_id, regdate from reply_general
+			where post_id = #{post_id} order by regdate desc
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="delReply" parameterType="hashMap">
+		delete from reply_general
+			where id = #{id} and password= '${password}'
+	<!-- password 에서 #{} 으로 파라미터를 매핑할시 오류는 없으나 쿼리가 작동하지못함,,,부득이하게 ${} 사용 -->
+	</delete>
+		
+	<!-- 게시물 조회수 갱신 -->
+	<update id = "updateHit" parameterType="int">
+		update post_general
+			set hit = hit + 1
+			where id = #{id}	
+	</update>
+	
+	<!-- 게시물 첨부파일 정보 삽입 -->
+	<insert id="regFile" parameterType="com.guithub.domain.board.general.FileVO">
+		INSERT INTO file_general (name, file_size, post_id) 
+			VALUES (#{name}, #{file_size}, #{post_id})
+	</insert>
+	
+	<!-- 게시물 첨부파일 정보 보기 -->
+	  
+	<select id="getFile" parameterType="int" resultType="com.guithub.domain.board.general.FileVO">
+		select * from file_general
+			where post_id = #{id} order by regdate desc
+	</select>
+	
+	<!-- 게시물 첨부파일 삭제 -->
+	<delete id="delFile" parameterType="int">
+		delete from file_general
+			where id = #{id}
+	</delete>
+	
+</mapper>
