@@ -7,7 +7,7 @@
 	<c:if test="${sessionScope.mem_id == null}">
 		<script type="text/javascript">	
 			alert("로그인 후 이용해주세요.");
-			location.href="/login";
+			location.href="/home/login";
 		</script>
 	</c:if>	
 	
@@ -46,7 +46,7 @@
 						</td>
 					</tr>
 					<tr class="content">
-						<td colspan="3" style="background-color: #ffffff; white-space: pre;">${detail.content}</td>
+						<td colspan="3" style="background-color: #ffffff; white-space: pre-wrap;">${detail.content}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -93,7 +93,7 @@
 				<c:forEach items="${listReply}" var="r">
 					<tr style="background-color:white;">
 						<td>${r.writer_id }</td>
-						<td class="cotent" style = "WORD-BREAK: break-all; white-space: pre;">${r.content }</td>
+						<td class="content" style="white-space: pre-wrap;">${r.content }</td>
 						<td><a href="delreply?rid=${r.id}&pid=${param.id }&rwriter=${r.writer_id}" style="color: red">[x]</a></td>
 						<td><fmt:formatDate pattern="yy/MM/dd HH:mm" value="${r.regdate }"/></td>
 					</tr>

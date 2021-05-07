@@ -9,4 +9,64 @@
 		select * from member
 			where id = #{id} and password = #{password}
 	</select>
+	
+	<!-- 현재 회원의 게시판 별 작성 게시물 총 개수 -->
+	<select id="getBoardPostCnt" resultType="int">
+		select count(id) from post_${board}
+		<if test='field.equals("title")'>
+			where title like '%${keyword}%'
+		</if>
+		<if test='field.equals("title_content")'>
+		    where title like '%${keyword}%' or content like '%${keyword}%'
+		</if>
+			and writer_id = #{nickname}
+	</select>
+	
+	<!-- 현재 회원의 게시판 별 작성 게시물 목록 -->
+	<select id ="getTabList" resultType="com.guithub.domain.board.tab.PostVO_view">
+		select * from (
+		       	select rownum num, n.* 
+		        from (select * from post_tab_view 
+		        <if test='field.equals("title")'>
+		        	where title like '%${keyword}%'
+		        </if>
+		        <if test='field.equals("title_content")'>
+		        	where title like '%${keyword}%' or content like '%${keyword}%'
+		        </if>
+		        	and writer_id = #{nickname} order by regdate desc)n
+		        )
+		    where num between #{startRowNum} and #{endRowNum}
+	</select>
+	
+	<!-- 현재 회원의 게시판 별 작성 댓글 총 개수 -->
+	<select id="getBoardReplyCnt" resultType="int">
+		select count(id) from post_${board}
+		    where content like '%${keyword}%' and writer_id = #{nickname}
+	</select>
+	
+	<!-- 현재 회원의 게시판 별 작성 댓글 목록 -->
+	<select id ="getTabReplyList" resultType="com.guithub.domain.board.tab.ReplyVO">
+		select * from (
+		       	select rownum num, n.* 
+		        from (select * from reply_tab
+		        	where content like '%${keyword}%'
+		        	and writer_id = #{nickname} order by regdate desc)n
+		        )
+		    where num between #{startRowNum} and #{endRowNum}
+	</select>	
+	<!-- 회원가입 아이디 중복확인 -->
+	<select id="checkIdDup" resultType="boolean">
+		select count(id) from member
+			where id = #{id}
+	</select>
+	<!-- 회원가입 닉네임 중복확인 -->
+	<select id="checkNickDup" resultType="boolean">
+		select count(id) from member
+			where nickname = #{nickname}	
+	</select>
+	<!-- 회원등록 -->
+	<insert id="regMember" parameterType="com.guithub.domain.member.MemberVO">
+		insert into member(id, password, nickname, email)
+			values(#{id}, #{password}, #{nickname}, #{email})
+	</insert>
 </mapper>

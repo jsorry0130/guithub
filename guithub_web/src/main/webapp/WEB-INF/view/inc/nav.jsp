@@ -4,7 +4,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="/index">Guithub</a>
+      <a class="navbar-brand" href="/home/index">Guithub</a>
       <!-- <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button> -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,7 +12,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/index">Home
+            <a class="nav-link" href="/home/index">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -26,12 +26,12 @@
           </li>
           <c:if test="${sessionScope.mem_id==null}">          
           <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link" href="/home/login">Login</a>
           </li>
           </c:if>
           <c:if test="${sessionScope.mem_id!=null}">
           <li class="nav-item">
-            <a class="nav-link" href="/meminfo">MyInfo</a>
+            <a class="nav-link" href="/member/meminfo">MyInfo</a>
           </li>
           </c:if>
         </ul>

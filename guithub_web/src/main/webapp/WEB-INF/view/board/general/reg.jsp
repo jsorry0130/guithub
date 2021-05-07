@@ -4,6 +4,7 @@
 
 	<!-- 글 작성 양식 -->
 	<script>
+		//첨부파일 폼 추가 스크립트
         const add_fileForm = () => {
             const addFileForm = document.getElementById("addFileForm");
             const newP = document.createElement('tr');

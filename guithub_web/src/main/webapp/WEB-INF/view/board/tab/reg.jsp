@@ -5,7 +5,7 @@
 	<c:if test="${sessionScope.mem_id == null}">
 		<script type="text/javascript">	
 			alert("로그인 후 이용해주세요.");
-			location.href="/login";
+			location.href="/home/login";
 		</script>
 	</c:if>	
 	

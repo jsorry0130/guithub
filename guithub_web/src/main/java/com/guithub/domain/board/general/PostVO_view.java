@@ -11,6 +11,7 @@ public class PostVO_view {
 	private Date regdate;
 	private int hit;
 	private String reply_count;
+	private String content;
 	
 	//실제 datatable에는 없는 속성. 오늘자 글인지 확인하기 위한 속성
 	private boolean new_post = false;
@@ -56,6 +57,12 @@ public class PostVO_view {
 		this.reply_count = reply_count;
 	}
 	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 	public boolean isNew_post() {
 		return new_post;
 	}
@@ -74,6 +81,7 @@ public class PostVO_view {
 		}
 		
 	}
+
 
 	
 	

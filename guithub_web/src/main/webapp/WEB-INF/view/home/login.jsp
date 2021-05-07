@@ -6,7 +6,7 @@
 	<c:if test="${check==true}">
 		<script type="text/javascript">	
 			alert("환영합니다.");
-			location.href="/index";
+			location.href="/home/index";
 		</script>
 	</c:if>		
 	<c:if test="${check==false}">
@@ -15,7 +15,7 @@
 		</script>
 	</c:if>	
 	
-	<div class="container" style="margin-right:-180px">
+	<div class="container" style="margin-left: 37%;">
 		<div class="col-lg-4">
 			<div class="jumbotron" style="padding-top: 20px;">
 				<form method="post" action="login">
@@ -28,7 +28,7 @@
 					</div>
 					<input type="submit" class="btn bg-dark form-control" style="color:white" value="로그인">
 				</form>
-					<a href="/join" class="btn bg-dark form-control" style="color: white">회원가입</a>
+					<a href="/home/join" class="btn bg-dark form-control" style="color: white">회원가입</a>
 			</div>
 		</div>
 	</div>

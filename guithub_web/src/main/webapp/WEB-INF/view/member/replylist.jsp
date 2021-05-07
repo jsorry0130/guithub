@@ -1,52 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"	uri="http://java.sun.com/jsp/jstl/fmt" %>
-    
-	<c:if test="${sessionScope.mem_id == null}">
-		<script type="text/javascript">	
-			alert("로그인 후 이용해주세요.");
-			location.href="/home/login";
-		</script>
-	</c:if>	
-						
+
 	<div class="container">
-		<h1 style="color: white;">타브악보 게시판</h1>
-		<h3 style="color: white;">-회원-</h3>
+		<h1 style="color: white; margin: 0px 0px 15px 0px;">댓글 관리</h1>
+		<div style="margin: 0px 0px 15px 0px">
+			<select class = "form-control" name="board" style="display:inline; width:200px;" onchange="location.href=this.value">
+				<option value="/member/postlist?board=tab" ${(param.board=='tab') ? "selected":""}>타브악보</option>
+				<option value="/member/postlist?board=tab" ${(param.board=='tab') ? "selected":""}>타브악보</option>
+				<option value="/member/postlist?board=tab" ${(param.board=='tab') ? "selected":""}>타브악보</option>
+			</select>
+			<h4 style="display:inline; color: white;">게시판</h4>
+		</div>
 		<div class="row">
 				<!-- 게시판 글 목록 -->
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; width: 1000px;">
 					<thead>
 						<tr class="bg-dark">
-							<th style="text-align: center; width: 10%; color:white;">번호</th>
-							<th style="text-align: center; color:white;">제목</th>
-							<th style="text-align: center; color:white;">작성자</th>
+							<th style="text-align: center; width: 12%; color:white;">게시물번호</th>
+							<th style="text-align: center; width: 10%; color:white;">댓글번호</th>
+							<th style="text-align: center; color:white;">내용</th>
 							<th style="text-align: center; color:white;">작성일</th>
-							<th style="text-align: center; color:white;">조회수</th>
+							<th style="text-align: center; width: 10%; color:white;">삭제</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${list}" var="p"> 
+						<c:forEach items="${list}" var="r"> 
 						<tr style="background-color: #eeeeee;">
-							<td>${p.id}</td>
-							<td style="text-align: left;"><a href="detail?id=${p.id}" link="black">${p.title}
-								<c:if test="${p.reply_count > 0 }">
-								<span style="color: blue">[${p.reply_count}]</span>
-								</c:if>
-								<c:if test="${p.new_post == true}">
-									<span style="color:red;">[new]</span>
-								</c:if>
-								</a></td>
-							<td>${p.writer_id}</td>
-							<td>
-								<c:if test="${p.new_post == true}">
-									<fmt:formatDate pattern="HH:mm" value="${p.regdate }"/>
-								</c:if>
-								<c:if test="${p.new_post == false}">
-									<fmt:formatDate pattern="yy/MM/dd" value="${p.regdate }"/>
-								</c:if> 
+							<td>${r.post_id}</td>
+							<td>${r.id}</td>
+							<td style="text-align: left;"><a href="/board/${param.board}/detail?id=${r.post_id}" link="black">
+								${r.content}
+								</a>
 							</td>
-							<td>${p.hit}</td>
+							<td>
+								<fmt:formatDate pattern="yy/MM/dd" value="${r.regdate }"/>
+							</td>
+							<td><a href="/board/${param.board}/delreply?rid=${r.id}&pid=${r.post_id}&rwriter=${sessionScope.mem_nickname}" style="color:red">삭제</a></td>
 						</tr>
 					</c:forEach>
 					</tbody>
@@ -82,14 +74,9 @@
 				</c:if>
 			</div>
 			
-			<!-- 글쓰기 버튼 -->
-			<div style="float: right; padding: 0px 130px 0px 0px;">
-				<a href="reg" class="btn bg-dark pull-right" style="color: white">글쓰기</a>
-			</div>
-			
 			<!-- 검색 박스 및 버튼 (부트스트랩 css를 수정할수없어 float으로 input 한줄에 정렬)-->
 			<form>
-				<div style="float: right; padding: 0px 10px 0px 0px;">
+				<div style="float: right; padding: 0px 130px 0px 0px;">
 					<input type="submit" class="btn bg-dark pull-right" style="color: white" value="검색">
 				</div>
 				<div style="float: right; padding: 0px 10px 0px 0px;">
@@ -98,9 +85,7 @@
 				</div>
 				<div style="float: right; padding: 0px 10px 0px 0px;">
 					<select name="field" class="form-control">
-						<option ${(param.field=="title") ? "selected":"" } value="title">제목</option>
-						<option ${(param.field=="title_content") ? "selected":"" } value="title_content">제목+내용</option>
-						<option ${(param.field=="writer") ? "selected":"" } value="writer">작성자</option>
+						<option value="content">내용</option>
 					</select>
 				</div>
 			</form>

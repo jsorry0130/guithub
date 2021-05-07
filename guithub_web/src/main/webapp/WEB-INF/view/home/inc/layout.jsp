@@ -19,16 +19,9 @@
   <link href="/static/css/business-frontpage.css" rel="stylesheet">
   <link href="/static/css/simple-sidebar.css" rel="stylesheet">
   
-  <style type="text/css">
-	a:link {text-decoration: none; color: black;}
-	a:visited {text-decoration: none; color: black;}
-	a:active {text-decoration: none; color: black;}
-	a:hover {text-decoration: underline; color: black;}
-  </style>
-
 </head>
 
-<body class="bg-secondary" link="black" alink="black" vlink="black">    
+<body class="bg-secondary">    
   <!-- Navigation -->
 
   <tiles:insertAttribute name="nav" />
@@ -37,20 +30,9 @@
 
   <tiles:insertAttribute name="header" />
  
-  <div class="d-flex" id="wrapper"> <!-- side bar 나타내기용 감싸기 -->
-  <!-- Side Bar -->
-  <tiles:insertAttribute name="side" />
-     
+  
   <!-- Page Content -->
   <tiles:insertAttribute name="body" />
-
-    <!-- /.row -->
-
-
-    <!-- /.row -->
-
-  <!-- /.container -->
-  </div>
   
   <!-- Footer -->
 

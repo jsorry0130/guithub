@@ -89,7 +89,7 @@
 				<c:forEach items="${listReply}" var="r">
 					<tr style="background-color:white;">
 						<td>${r.writer_id }</td>
-						<td class="cotent" style = "WORD-BREAK: break-all; white-space: pre;">${r.content }</td>
+						<td class="content" style = "WORD-BREAK: break-all; white-space: pre;">${r.content }</td>
 						<td><a href="delreply?rid=${r.id}&pid=${param.id}" style="color: red">[x]</a></td>
 						<td><fmt:formatDate pattern="yy/MM/dd HH:mm" value="${r.regdate }"/></td>
 					</tr>

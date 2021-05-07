@@ -238,7 +238,6 @@ public class BoardController {
 		}
 		
 		//체크한 파일 삭제
-		
 		if(delFiles!=null) {
 			for(int delFile_id: delFiles) {
 				System.out.println("체크된 삭제할 파일: " + delFile_id);

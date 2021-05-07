@@ -6,7 +6,7 @@
 	<c:if test="${sessionScope.mem_id==null}">
 		<script type="text/javascript">	
 			alert("로그아웃 되었습니다.");
-			location.href="/index";
+			location.href="/home/index";
 		</script>
 	</c:if>		
 	<div class="container" style="margin-right:-180px">
