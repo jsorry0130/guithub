@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -126,10 +127,9 @@ public class BoardController {
 		return "redirect:detail?id="+vo.getId();  
 		
 	}
-	 
-		
-	//게시물 삭제 비밀번호 입력 폼 + 실행
-	@RequestMapping(value = "delpost", method = {RequestMethod.POST , RequestMethod.GET})
+			
+	//비회원 게시물 삭제 비밀번호 입력 폼 + 실행
+	@RequestMapping(value = "delpost", method = {RequestMethod.GET, RequestMethod.POST})
 	public String delPost(@RequestParam("id") int id,
 			@RequestParam(value="password", required = false, defaultValue = "") String password,
 			Model model) throws Exception{
@@ -143,6 +143,27 @@ public class BoardController {
 		return "board.general.delpost";
 	}
 	
+	//회원 게시물 삭제
+	@RequestMapping(value="delmempost", method = {RequestMethod.GET, RequestMethod.POST})
+	public String delMemPost(@RequestParam("id") int id,
+			HttpServletRequest request,
+			Model model) throws Exception{
+		
+		PostVO post = postService.getDetail(id);
+		HttpSession session = request.getSession();
+		
+
+		if(post.getWriter_id().equals(session.getAttribute("mem_nickname"))) {
+			//회원 게시물은 비밀번호가 null
+			int delCnt = postService.delPost(id, null);
+			model.addAttribute("delCnt", delCnt);
+		}else {
+			model.addAttribute("warning", true); //접근 경고
+		}
+
+		return "board.general.delmempost";
+	}
+	
 	//댓글 등록 후 redirect
 	@RequestMapping(value="regreply", method=RequestMethod.POST)
 	public String regReply(ReplyVO vo) throws Exception{
@@ -151,7 +172,7 @@ public class BoardController {
 		return "redirect:detail?id="+vo.getPost_id();
 	}
 	
-	//댓글 삭제 비밀번호 입력 폼 + 실행
+	//비회원 댓글 삭제 비밀번호 입력 폼 + 실행
 	@RequestMapping(value = "delreply", method = {RequestMethod.POST, RequestMethod.GET})
 	public String delReply(@RequestParam("rid") int id,
 			@RequestParam(value="password", required = false, defaultValue = "") String password,
@@ -166,27 +187,53 @@ public class BoardController {
 		return "board.general.delreply";
 	}
 	
-	//게시물 수정 패스워드 입력 폼 페이지
-	@RequestMapping(value = "checkpwd", method = {RequestMethod.POST, RequestMethod.GET})
-	public String checkPwd(@RequestParam("id") int id,
-			@RequestParam(value="password", required = false, defaultValue = "") String password,
+	//회원 댓글 삭제 실행
+	@RequestMapping(value = "delmemreply", method = {RequestMethod.POST, RequestMethod.GET})
+	public String delMemReply(@RequestParam("rid") int id,
+			@RequestParam(value="confirm", required=false, defaultValue="false") boolean confirm,
+			@RequestParam(value="writer", required=false) String writer,
+			HttpServletRequest request,
 			Model model) throws Exception{
 		
-		//비밀번호를 입력했을 때만 확인 쿼리 실행
-		if(!password.equals("")) {
-			System.out.println("아이디 비번 입력 확인 완료 검증 후 수정 페이지로 리다이렉트");
-			boolean check = postService.checkPwd(id, password);
-			model.addAttribute("check", check);
-			
+		HttpSession session = request.getSession();
+		
+		//로그인한 회원의 댓글이 아닐시 접근경고
+		if(writer.equals(session.getAttribute("mem_nickname"))) {		
+			//삭제 재확인시
+			if(confirm) {
+				replyService.delReply(id, null);
+				model.addAttribute("success", true);
+			}
+		}else {
+			model.addAttribute("warning", true);
 		}
+		return "board.general.delmemreply";
+	}
+	
+	//비회원 게시물 수정 패스워드 입력 폼 페이지
+	@RequestMapping(value = "checkpwd", method = {RequestMethod.POST, RequestMethod.GET})
+	public String checkPwd() throws Exception{
 		
 		return "board.general.checkpwd";
 	}
 	
-	//게시물 수정 폼 페이지
-	@RequestMapping("edit")
-	public String editPost(@RequestParam("id") int id, Model model) throws Exception{
-		//수정 전 게시물 상태 표기를 위한 게시물 상세 정보와 첨부파일 목록
+	//비회원 게시물 수정 폼 페이지
+	@RequestMapping(value="edit", method= {RequestMethod.POST, RequestMethod.GET})
+	public String editForm(@RequestParam("id") int id,
+			@RequestParam("password") String password,
+			Model model) throws Exception{
+		
+		//비밀번호를 입력했을 때만 확인 쿼리 실행
+		if(!password.equals("")) {
+			//비밀번호 불일치시 다시 비밀번호 입력 페이지로 리디렉트
+			boolean check = postService.checkPwd(id, password);
+			model.addAttribute("check", check);
+		}else { 
+			//미입력시
+			model.addAttribute("nopwd", true);
+		}
+		
+		//수정 전 게시물 상태 표기를 위한 게시물 상세 정보와 첨부파일 목록		
 		PostVO detail = postService.getDetail(id);
 		List<FileVO> files = postService.getFile(id);
 		
@@ -196,12 +243,40 @@ public class BoardController {
 		return "board.general.edit";
 	}
 	
-	//게시물 수정 실행
-	@RequestMapping(value="edit", method= RequestMethod.POST)
-	public String editPost(@RequestParam("id") int id, PostVO vo,
+	//회원 게시물 수정 폼 페이지
+	@RequestMapping(value="editmem", method= {RequestMethod.POST, RequestMethod.GET})
+	public String editMemForm(@RequestParam("id") int id,
+			HttpServletRequest request,
+			Model model) throws Exception{
+		
+		PostVO post = postService.getDetail(id);
+		HttpSession session = request.getSession();
+		String writer_id = post.getWriter_id();
+		String mem_nickname = (String) session.getAttribute("mem_nickname");
+		String post_pwd = post.getPassword();
+		
+		//로그인한 회원의 게시물이 아닐시 경고후 리디렉트
+		if(!(post_pwd==null && writer_id.equals(mem_nickname)))
+			model.addAttribute("warning", true);
+		
+		//수정 전 게시물 상태 표기를 위한 게시물 상세 정보와 첨부파일 목록		
+		PostVO detail = postService.getDetail(id);
+		List<FileVO> files = postService.getFile(id);
+		
+		model.addAttribute("detail", detail);
+		model.addAttribute("files", files);
+		
+		return "board.general.edit";
+	}
+	
+	//게시물 수정 실행 (회원+비회원 통합)
+	@RequestMapping(value="editPost", method= RequestMethod.POST)
+	public String editPost(PostVO vo,
+			@RequestParam("password") String password,
 			@RequestParam("file") MultipartFile[] files,
 			@RequestParam(value="delFiles", required = false) int[] delFiles,
 			HttpServletRequest request, Model model) throws Exception{
+		
 		//게시물 수정
 		postService.editPost(vo);
 		
@@ -247,6 +322,5 @@ public class BoardController {
 		
 		return "redirect:detail?id="+vo.getId();
 	}
-	
 	
 }

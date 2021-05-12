@@ -41,17 +41,15 @@ public class HomeController {
 		//로그인 정보 확인
 		MemberVO mem = memberService.login(vo);
 		if(mem != null){
-			System.out.println("로그인확인되었습니다.");
-			System.out.println("로그인된 아이디는 "+vo.getId());
-			
 		    HttpSession session = request.getSession();
 		    session.setAttribute("mem_id", mem.getId());
 		    session.setAttribute("mem_email", mem.getEmail());
 		    session.setAttribute("mem_nickname", mem.getNickname());
-		    System.out.println("현재 세션유지 중인 로그인 아이디:" + session.getAttribute("mem_id"));
-		    model.addAttribute("check", true);
+		    session.setAttribute("mem_pwd", mem.getPassword());
+
+		    model.addAttribute("check", true); //로그인 성공
 		}else {
-		    model.addAttribute("check", false);
+		    model.addAttribute("check", false); //로그인 실패
 		}
 		
 		
@@ -59,34 +57,35 @@ public class HomeController {
 		return "home.login";
 	}
 	
+	//회원가입 폼 페이지
 	@RequestMapping("join")
 	public String join() throws Exception{
 		
 		return "home.join";
 	}
 	
-	//회원가입
+	//회원가입 실행
 	@RequestMapping(value="join", method= RequestMethod.POST)
-	public String join(MemberVO vo, Model model,
-			@RequestParam("pwdcheck") String pwdcheck) throws Exception{
+	public String join(MemberVO vo, Model model) throws Exception{
 		
-		//비밀번호 검증
-		if(vo.getPassword().equals(pwdcheck)) {
-			//아이디, 닉네임 중복확인
-			boolean idDup = memberService.checkIdDup(vo.getId());
-			boolean nickDup = memberService.checkNickDup(vo.getNickname());
+
+		//아이디, 닉네임 중복확인
+		boolean idDup = memberService.checkIdDup(vo.getId());
+		boolean nickDup = memberService.checkNickDup(vo.getNickname());
 			
-			model.addAttribute("idDup", idDup);
-			model.addAttribute("nickDup", nickDup);
+		model.addAttribute("idDup", idDup);
+		model.addAttribute("nickDup", nickDup);
 			
-			//id, 닉네임 검증 후
-			if(!idDup & !nickDup) {
-				memberService.regMember(vo);
-				model.addAttribute("success", true);
-			}
-		}else {
-			model.addAttribute("pwdError", true);
+		//id, 닉네임 모두 고유하다면 회원등록
+		if(!idDup & !nickDup) {
+			memberService.regMember(vo);
+			
+			
+			model.addAttribute("success", true);
 		}
+		
+		
 		return "home.join";
 	}
+
 }

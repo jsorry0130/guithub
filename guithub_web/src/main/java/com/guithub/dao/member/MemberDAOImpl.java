@@ -14,7 +14,7 @@ import com.guithub.domain.member.MemberVO;
 public class MemberDAOImpl implements MemberDAO {
 	@Autowired
 	private SqlSession sql;
-	private static String namespace = "com.guithub.mappers.main.member";
+	private static String namespace = "com.guithub.mappers.mem.member";
 	
 	//로그인
 	@Override
@@ -22,6 +22,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 		return sql.selectOne(namespace+".login",vo);
 	}
+	
 	//현재 회원의 게시판 별 작성 게시물 총 개수
 	@Override
 	public int getBoardPostCnt(String nickname, String board, String field, String keyword) {
@@ -54,8 +55,9 @@ public class MemberDAOImpl implements MemberDAO {
 		
 		if(board.equals("tab"))
 			return sql.selectList(namespace+".getTabList", data);
-		else {
-			System.out.println("sql 값 없음!");
+		else if(board.equals("general")) {
+			return sql.selectList(namespace+".getGeneralList", data);
+		}else {
 			return null;
 		}
 	}
@@ -91,8 +93,11 @@ public class MemberDAOImpl implements MemberDAO {
 		
 		if(board.equals("tab"))
 			return sql.selectList(namespace+".getTabReplyList", data);
-		else
+		else if(board.equals("general")) {
+			return sql.selectList(namespace+".getGeneralReplyList", data);
+		}else {
 			return null;
+		}
 	}
 	
 	//회원가입 아이디 중복 확인
@@ -112,6 +117,12 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void regMember(MemberVO vo) {
 		sql.insert(namespace+".regMember", vo);
+	}
+	
+	//회원삭제
+	@Override
+	public void delMember(String mem_id) {
+		sql.delete(namespace+".delMember", mem_id);
 	}
 
 }

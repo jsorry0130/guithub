@@ -96,4 +96,40 @@ public class MemberController {
 		
 		return "member.replylist";
 	}
+	//회원탈퇴 비밀번호 확인 폼페이지
+	@RequestMapping("withdraw")
+	public String withdraw() throws Exception{
+		
+		return "member.withdraw";
+	}
+	
+	//회원탈퇴
+	@RequestMapping(value="withdraw", method= {RequestMethod.GET, RequestMethod.POST})
+	public String withdraw(Model model, HttpServletRequest request ,
+			@RequestParam(value="pwdCheck", required=false ) String pwdCheck,
+			@RequestParam(value="reconfirm", required=false, defaultValue="false" ) boolean reconfirm) throws Exception{
+		//현재 회원 정보
+		HttpSession session = request.getSession();
+		String mem_pwd = (String)session.getAttribute("mem_pwd");
+		String mem_id = (String)session.getAttribute("mem_id");
+		
+		//비밀번호 입력 후 확인 성공시
+		if(pwdCheck!=null) {
+			if(mem_pwd.equals(pwdCheck)) {
+				model.addAttribute("check", true); //비밀번호 확인 성공 알림
+			}else {
+				model.addAttribute("check", false);
+			}
+		}
+		//비밀번호 확인 성공 후 탈퇴 재확인 성공시
+		System.out.println("재확인값"+reconfirm);
+		if(reconfirm) {
+			memberService.delMember(mem_id);
+			session.invalidate(); //세션종료
+			model.addAttribute("success", true);
+		}
+		
+		return "member.withdraw";
+	}
+
 }

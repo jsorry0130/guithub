@@ -6,7 +6,6 @@
 					
 	<div class="container">
 		<h1 style="color: white;">자유게시판</h1>
-		<h3 style="color: white;">-익명-</h3>
 		<div class="row">
 				<!-- 게시판 글 목록 -->
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; width: 1000px;">
@@ -30,8 +29,14 @@
 								<c:if test="${p.new_post == true}">
 									<span style="color:red;">[new]</span>
 								</c:if>
-								</a></td>
-							<td>${p.writer_id}</td>
+								</a>
+							</td>
+							<td>${p.writer_id}
+							<!-- 글 작성자가 회원일시 구분할 표시 -->				
+								<c:if test="${p.password==null}">
+								<span style="color:red">[★]</span>
+								</c:if>
+							</td>
 							<td>
 								<c:if test="${p.new_post == true}">
 									<fmt:formatDate pattern="HH:mm" value="${p.regdate }"/>

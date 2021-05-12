@@ -8,8 +8,7 @@
 		<h1 style="color: white; margin: 0px 0px 15px 0px;">게시물 관리</h1>
 		<div style="margin: 0px 0px 15px 0px">
 			<select class = "form-control" name="board" style="display:inline; width:200px;" onchange="location.href=this.value">
-				<option value="/member/postlist?board=tab" ${(param.board=='tab') ? "selected":""}>타브악보</option>
-				<option value="/member/postlist?board=tab" ${(param.board=='tab') ? "selected":""}>타브악보</option>
+				<option value="/member/postlist?board=general" ${(param.board=='general') ? "selected":""}>자유게시판</option>
 				<option value="/member/postlist?board=tab" ${(param.board=='tab') ? "selected":""}>타브악보</option>
 			</select>
 			<h4 style="display:inline; color: white;">게시판</h4>

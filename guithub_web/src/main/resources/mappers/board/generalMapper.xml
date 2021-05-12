@@ -56,7 +56,13 @@
 	<!-- 게시물 삭제-->
 	<delete id="delPost" parameterType="hashMap">
 		delete from post_general
-			where id = #{id} and password= '${password}'
+			where id = #{id} and password
+			<if test="password!=null">
+			='${password}'
+			</if>
+			<if test="password==null || password.equals('')">
+			is null
+			</if>
 	<!-- password 에서 #{} 으로 파라미터를 매핑할시 오류는 없으나 쿼리가 작동하지못함,,,부득이하게 ${} 사용 -->
 	</delete>
 	
@@ -85,14 +91,20 @@
 	
 	<!-- 댓글 목록 -->
 	<select id ="getListReply" resultType="com.guithub.domain.board.general.ReplyVO">
-		select id, content, writer_id, regdate from reply_general
+		select * from reply_general
 			where post_id = #{post_id} order by regdate desc
 	</select>
 	
 	<!-- 댓글 삭제 -->
 	<delete id="delReply" parameterType="hashMap">
 		delete from reply_general
-			where id = #{id} and password= '${password}'
+			where id = #{id} and password
+			<if test="password!=null">
+			= '${password}'
+			</if>
+			<if test="password==null">
+			is null
+			</if>
 	<!-- password 에서 #{} 으로 파라미터를 매핑할시 오류는 없으나 쿼리가 작동하지못함,,,부득이하게 ${} 사용 -->
 	</delete>
 		

@@ -23,5 +23,7 @@ public interface MemberDAO {
 	boolean checkNickDup(String nickname);
 	//회원 등록
 	void regMember(MemberVO vo);
+	//회원 삭제
+	void delMember(String mem_id);
 
 }

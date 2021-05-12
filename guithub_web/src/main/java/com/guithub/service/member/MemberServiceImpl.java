@@ -68,4 +68,10 @@ public class MemberServiceImpl implements MemberService {
 		dao.regMember(vo);
 	}
 
+	//회원 삭제
+	@Override
+	public void delMember(String mem_id) {
+		dao.delMember(mem_id);
+	}
+
 }
