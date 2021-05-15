@@ -34,7 +34,7 @@
 							<td>${p.writer_id}
 							<!-- 글 작성자가 회원일시 구분할 표시 -->				
 								<c:if test="${p.password==null}">
-								<span style="color:red">[★]</span>
+								<span style="color:blue">[★]</span>
 								</c:if>
 							</td>
 							<td>

@@ -61,7 +61,7 @@
 				<!-- 글 내용 -->
 					<tr> 
 						<th style = "width: 15%; background-color: #eeeeee;">${detail.writer_id}
-						<c:if test="${detail.password==null}"><span style="color:red">[★]</span></c:if>
+						<c:if test="${detail.password==null}"><span style="color:blue">[★]</span></c:if>
 						</th>
 						<th style= "text-align: right; background-color: #eeeeee;">
 							<fmt:formatDate pattern="yy/MM/dd HH:mm" value="${detail.regdate }"/>
@@ -73,7 +73,16 @@
 						<td colspan="2"  style="background-color: #ffffff;" >
 							<c:forEach items="${files}" var="f">
 								<a download href = "/static/upload/${f.realName}">
-									[다운로드] ${f.name} (${f.file_size}kb)<br/>
+									[다운로드] ${f.name}
+									<c:if test="${f.file_size < 1000}">
+										(${f.file_size}bite)<br/>
+									</c:if>									
+									<c:if test="${f.file_size >= 1000}">
+										(${fn:substringBefore(Math.floor(f.file_size/1000), '.')}kb)<br/>
+									</c:if>
+									<c:if test="${f.file_size >= 10000}">
+										(${fn:substringBefore(Math.floor(f.file_size/10000), '.')}mb)<br/>
+									</c:if>									
 								</a>
 							</c:forEach>
 						
@@ -149,7 +158,7 @@
 					<tr style="background-color:white;">
 						<td>${r.writer_id }
 						<c:if test="${r.password==null }">
-							<span style="color:red">[★]</span>
+							<span style="color:blue">[★]</span>
 						</c:if>
 						</td>
 						<td class="content" style="white-space: pre-wrap;">${r.content }</td>
