@@ -93,7 +93,7 @@
 					<input type="submit" class="btn bg-dark pull-right" style="color: white" value="검색">
 				</div>
 				<div style="float: right; padding: 0px 10px 0px 0px;">
-					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword" style="width: 300px;"
+					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword" style="width: 250px;"
 					value="${param.keyword }"/>
 				</div>
 				<div style="float: right; padding: 0px 10px 0px 0px;">

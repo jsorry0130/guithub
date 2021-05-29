@@ -60,14 +60,14 @@
 			<!-- 페이징 번호 및 버튼 -->
 			<div style="float: left;">
 				<c:if test="${paging.prev}">
-					<a href="list?page=${paging.startPageNum-1}&field=${param.field}&keyword=${param.keyword}" 
+					<a href="postlist?board=${param.board}&page=${paging.startPageNum-1}&field=${param.field}&keyword=${param.keyword}" 
 					class="btn bg-dark btn-arraw-left" style="color: white">이전</a>
 				</c:if>
 				
 					<c:forEach begin="${paging.startPageNum}" end="${paging.endPageNum}" var="num">
 						<c:if test="${paging.page != num}">
 							<span style="margin: 5px;">
-								<a href="list?page=${num}&field=${param.field}&keyword=${param.keyword}"> ${num} </a>
+								<a href="postlist?board=${param.board}&page=${num}&field=${param.field}&keyword=${param.keyword}"> ${num} </a>
 							</span>
 						</c:if>
 						<c:if test="${paging.page == num}">
@@ -78,7 +78,7 @@
 					</c:forEach>
 					
 				<c:if test="${paging.next}">
-					<a href="list?page=${paging.endPageNum+1}&field=${param.field}&keyword=${param.keyword}" 
+					<a href="postlist?board=${param.board}&page=${paging.endPageNum+1}&field=${param.field}&keyword=${param.keyword}" 
 					class="btn bg-dark btn-arraw-left" style="color: white">다음</a>
 				</c:if>
 			</div>
@@ -89,7 +89,7 @@
 					<input type="submit" class="btn bg-dark pull-right" style="color: white" value="검색">
 				</div>
 				<div style="float: right; padding: 0px 10px 0px 0px;">
-					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword" style="width: 300px;"
+					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword" style="width: 250px;"
 					value="${param.keyword }"/>
 				</div>
 				<div style="float: right; padding: 0px 10px 0px 0px;">

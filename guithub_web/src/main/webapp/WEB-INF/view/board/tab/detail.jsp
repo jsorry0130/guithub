@@ -39,7 +39,17 @@
 						<td colspan="2"  style="background-color: #ffffff;" >
 							<c:forEach items="${files}" var="f">
 								<a download href = "/static/tab/upload/${f.realName}">
-									[다운로드] ${f.name} (${f.file_size}kb)<br/>
+									[다운로드] ${f.name}
+									<c:if test="${f.file_size < 1000}">
+										(${f.file_size}bite)<br/>
+									</c:if>									
+									<c:if test="${f.file_size < 1000000 && f.file_size >= 1000}">
+										(${fn:substringBefore(Math.floor(f.file_size/1000), '.')}kb)<br/>
+									</c:if>
+									<c:if test="${f.file_size >= 1000000}">
+									<fmt:formatNumber var="fsize" value="${f.file_size/1000000}" pattern=".00"/>
+										(${fsize}mb)<br/>
+									</c:if>		
 								</a>
 							</c:forEach>
 						
